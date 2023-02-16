@@ -12,6 +12,7 @@ import Confetti from 'react-confetti'
 
 function App() {
 
+  const [rolls, setRolls] = useState(1)
   const [dice, setDice] = useState(allNewDice())
   const [tenzies, setTenzies] = useState(false)
 
@@ -33,6 +34,7 @@ function App() {
     setDice(oldDice => oldDice.map(die => {
       return !die.isHeld ? { ...die, value: Math.ceil(Math.random() * 6) } : die
     }))
+    setRolls(oldRolls => oldRolls + 1)
   }
 
   function holdDice(id) {
@@ -43,7 +45,8 @@ function App() {
     )
   }
 
-  function reset() {
+  function resetGame() {
+    setRolls(1)
     setTenzies(false)
     setDice(allNewDice)
   }
@@ -82,7 +85,8 @@ function App() {
       <div className="dice-container">
         {diceElement}
       </div>
-      <button className="roll-dice" onClick={tenzies ? reset : rollDice}>{tenzies ? 'New Game' : 'Roll'}</button>
+      <button className="roll-dice" onClick={tenzies ? resetGame : rollDice}>{tenzies ? 'New Game' : 'Roll'}</button>
+      <p className="rolls">You rolled the dice: <span>{rolls} time{rolls > 1 ? 's' : ''}</span></p>
     </main>
 
   );
