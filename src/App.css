@@ -31,6 +31,7 @@ main {
   margin-top:20px;
   margin-bottom: 0px;
   text-align: center;
+  line-height: 140%;
 }
 
 .dice-container {
@@ -76,11 +77,15 @@ main {
   box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
 }
 
-.rolls{
-  margin-top:40px;
-  font-size: 12px;
+.gameStats{
+  text-align: center;
+  margin-top: 40px;
 }
 
-.rolls span {
+.rolls, .timer{
+  font-size: 14px;
+}
+
+.rolls span, .timer span {
   font-weight: 800;
 }
