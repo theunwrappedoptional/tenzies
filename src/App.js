@@ -6,15 +6,12 @@ import { nanoid } from 'nanoid'
 import Confetti from 'react-confetti'
 import { useStopwatch } from 'react-timer-hook';
 
-//Add real dots on the dice
-//Save your best time to local storage
-
 function App() {
 
-  const [rolls, setRolls] = useState(1)
+  const [rolls, setRolls] = useState(0)
   const [dice, setDice] = useState(allNewDice())
   const [tenzies, setTenzies] = useState(false)
-  const stopwatch = useStopwatch({ autoStart: true });
+  const stopwatch = useStopwatch({ autoStart: false });
 
   function allNewDice() { 
     const newDice = []
@@ -38,18 +35,23 @@ function App() {
   }
 
   function holdDice(id) {
-    // console.log(id)
     setDice(oldDice => oldDice.map(die => {
         return (die.id === id) ? { ...die, isHeld: !die.isHeld } : die
       })
     )
   }
 
-  function resetGame() {
+  function startGame() {
     setRolls(1)
-    setTenzies(false)
+    stopwatch.start()
+  }
+
+  function resetGame() {
     setDice(allNewDice)
+    setRolls(0)
+    setTenzies(false) 
     stopwatch.reset()
+    stopwatch.pause()
   }
 
   const diceElement = dice.map(die => {
@@ -64,7 +66,6 @@ function App() {
 
   useEffect(() => {
     // console.log("Something changed")
-
     const allHeld = dice.every(die => die.isHeld)
     const firstValue = dice[0].value
     const allSameValue = dice.every(die => die.value === firstValue)
@@ -75,6 +76,19 @@ function App() {
       console.log("You won")
     }
   }, [dice, stopwatch])
+
+  const diceElementStyle = {
+    display: rolls === 0 ? "none" : ""
+  }
+
+  const startButtonStyle = {
+    display: rolls > 0 ? "none" : ""
+  }
+
+  const rollButtonStyle = {
+    display: rolls === 0 ? "none" : ""
+  }
+
   
   return (
 
@@ -85,10 +99,11 @@ function App() {
       <h1 className="title">Tenzies</h1>
 
       <p className="instructions">Roll until all the dice are the same.<br></br> Click each to freeze it at its current value between rolls.</p>
-      <div className="dice-container">
+      <div className="dice-container" style={diceElementStyle}>        
         {diceElement}
       </div>
-      <button className="roll-dice" onClick={tenzies ? resetGame : rollDice}>{tenzies ? 'New Game' : 'Roll'}</button>
+      <button className="start-tenzies" style={startButtonStyle} onClick={startGame}>Let's Start</button>
+      <button className="roll-dice" style={rollButtonStyle} onClick={tenzies ? resetGame : rollDice}>{tenzies ? 'New Game' : 'Roll'}</button>
       <div className="gameStats">
         <p className="rolls">You rolled the dice: <span>{rolls} time{rolls > 1 ? 's' : ''}</span></p>
         <p className="timer">Minutes: <span>{stopwatch.minutes}</span> Seconds: <span>{stopwatch.seconds}</span></p>
