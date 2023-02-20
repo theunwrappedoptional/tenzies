@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# React Tenzies
+This repo contains a React learning project.
+Tenzies is a simple dice game that consists of rolling 10 dice and trying to match the same number on all the dice as quickly as possible.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with Create React App.
 
 ## Available Scripts
 
